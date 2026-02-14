@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Kimberly ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#000;
+color:white;
+overflow-x:hidden;
+}
+
+/* 🌌 ESTRELLAS */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-2;
+}
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+from{opacity:.3;}
+to{opacity:1;}
+}
+
+/* 🌹 PÉTALOS */
+.petals{
+position:fixed;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:10;
+}
+.petal{
+position:absolute;
+top:-20px;
+font-size:20px;
+animation:fall linear forwards;
+}
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(360deg);
+opacity:0;
+}
+}
+
+/* SECCIONES */
+.section{
+width:100%;
+min-height:100vh;
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:25px;
+}
+.section.active{
+display:flex;
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:22px;
+margin-bottom:15px;
+}
+
+p{
+max-width:500px;
+margin-bottom:20px;
+line-height:1.6;
+font-size:14px;
+}
+
+button{
+padding:12px 22px;
+border-radius:30px;
+border:none;
+font-size:14px;
+margin:10px;
+cursor:pointer;
+}
+
+.yes{
+background:#ff4b7d;
+color:white;
+}
+
+.no{
+background:white;
+color:black;
+position:absolute;
+}
+
+.button-container{
+position:relative;
+width:260px;
+height:120px;
+}
+
+/* 💌 CARTA */
+.envelope{
+width:260px;
+height:170px;
+background:#ff4b7d;
+position:relative;
+cursor:pointer;
+border-radius:6px;
+}
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:#ff7aa2;
+clip-path:polygon(0 0,50% 50%,100% 0);
+transition:transform 1s;
+transform-origin:top;
+}
+.letter{
+position:absolute;
+width:90%;
+height:130px;
+background:white;
+color:black;
+top:20px;
+left:5%;
+border-radius:6px;
+padding:12px;
+transform:translateY(100%);
+transition:transform 1s;
+font-size:13px;
+}
+.envelope.open .flap{
+transform:rotateX(180deg);
+}
+.envelope.open .letter{
+transform:translateY(0);
+}
+
+/* 📸 GALERÍA */
+.gallery{
+width:100%;
+max-width:400px;
+height:65vh;
+position:relative;
+overflow:hidden;
+border-radius:15px;
+}
+.gallery img{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+transition:opacity 1s ease;
+}
+.gallery img.active{
+opacity:1;
+}
+
+/* 🎵 */
+.music-btn{
+position:fixed;
+top:15px;
+right:15px;
+background:#ff4b7d;
+color:white;
+border-radius:50%;
+width:45px;
+height:45px;
+}
+
+/* 💖 MENSAJE FINAL */
+#finalMessage{
+opacity:0;
+transition:opacity 2s ease;
+margin-top:20px;
+}
+#finalMessage.show{
+opacity:1;
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="petals" id="petals"></div>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<!-- INTRO -->
+<div id="s1" class="section active">
+<h1>Kimberly ❤️</h1>
+<p>
+14.02.2018 comenzó nuestra historia...  
+Y cada día contigo ha sido el mejor capítulo de mi vida.
+</p>
+<button class="yes" onclick="startExperience()">Comenzar ✨</button>
+</div>
+
+<!-- CARTA -->
+<div id="s2" class="section">
+<div class="envelope" onclick="openLetter()" id="envelope">
+<div class="flap"></div>
+<div class="letter">
+Kimberly...  
+Gracias por cada risa, cada abrazo y cada momento.  
+Estos años contigo han sido los más importantes de mi vida.
+</div>
+</div>
+<p style="margin-top:20px;">(Toca la carta)</p>
+<button class="yes" onclick="next()">Ver recuerdos</button>
+</div>
+
+<!-- GALERÍA -->
+<div id="s3" class="section">
+<h1>Nuestros Momentos ✨</h1>
+<div class="gallery">
+<img src="foto1.jpg" class="active">
+<img src="foto2.jpg">
+<img src="foto3.jpg">
+<img src="foto4.jpg">
+<img src="foto5.jpg">
+</div>
+<button class="yes" onclick="next()" style="margin-top:20px;">
+Hay algo más...
+</button>
+</div>
+
+<!-- PROPUESTA -->
+<div id="s4" class="section">
+<h1>💖 ¿Quieres ser mi San Valentín? 💖</h1>
+<div class="button-container">
+<button class="yes" onclick="yes()">Sí, siempre ❤️</button>
+<button class="no" id="noBtn">No 😅</button>
+</div>
+</div>
+
+<!-- FINAL -->
+<div id="s5" class="section">
+<h1>Sabía que dirías que sí 💕</h1>
+<p id="finalMessage">
+Gracias por estos 7 años y 6 meses...  
+Y gracias por elegirme cada día.  
+
+Quiero seguir escribiendo nuestra historia contigo,  
+no solo este San Valentín…  
+sino todos los que vengan ❤️
+</p>
+</div>
+
+<script>
+
+/* ⭐ ESTRELLAS */
+for(let i=0;i<120;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+star.style.animationDuration=(Math.random()*3+2)+"s";
+document.getElementById("stars").appendChild(star);
+}
+
+/* 🎬 NAVEGACIÓN */
+let current=1;
+function startExperience(){
+document.getElementById("music").play();
+next();
+}
+function next(){
+document.getElementById("s"+current).classList.remove("active");
+current++;
+document.getElementById("s"+current).classList.add("active");
+}
+
+/* 💌 CARTA */
+function openLetter(){
+document.getElementById("envelope").classList.toggle("open");
+}
+
+/* 🌹 PÉTALOS */
+function startPetals(){
+const petals=document.getElementById("petals");
+for(let i=0;i<30;i++){
+let p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌹";
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(Math.random()*3+3)+"s";
+petals.appendChild(p);
+setTimeout(()=>p.remove(),6000);
+}
+}
+
+/* 💖 RESPUESTA SÍ */
+function yes(){
+document.getElementById("s4").classList.remove("active");
+document.getElementById("s5").classList.add("active");
+
+startPetals();
+
+/* 📳 Vibración */
+if (navigator.vibrate) {
+navigator.vibrate([200,100,200]);
+}
+
+/* ✨ Mostrar mensaje final */
+setTimeout(()=>{
+document.getElementById("finalMessage").classList.add("show");
+},2000);
+}
+
+/* 😅 BOTÓN QUE HUYE */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+const container=document.querySelector(".button-container");
+const maxX=container.clientWidth-noBtn.offsetWidth;
+const maxY=container.clientHeight-noBtn.offsetHeight;
+noBtn.style.left=Math.random()*maxX+"px";
+noBtn.style.top=Math.random()*maxY+"px";
+});
+
+/* 🎵 MÚSICA */
+function toggleMusic(){
+const music=document.getElementById("music");
+music.paused?music.play():music.pause();
+}
+
+/* 📸 SLIDER */
+let slides=document.querySelectorAll(".gallery img");
+let index=0;
+setInterval(()=>{
+slides[index].classList.remove("active");
+index=(index+1)%slides.length;
+slides[index].classList.add("active");
+},3000);
+
+</script>
+
+</body>
+</html>
